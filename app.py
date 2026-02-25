@@ -17,7 +17,7 @@ if query:
     with st.spinner("Besig met eksegese..."):
         try:
             # ONS GEBRUIK NOU DIE SPESIFIEKE MODEL-ID WAT ALTYD WERK
-            model = genai.GenerativeModel('gemini-1.5-flash')
+            model = genai.GenerativeModel('gemini-2.5-flash')
             
             instruksie = f"""
             Tree op as 'n Protestantse Teoloog vir Ds. Jan de Beer. 
