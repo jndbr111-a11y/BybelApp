@@ -1,22 +1,22 @@
 import streamlit as st
 import google.generativeai as genai
 
-# 1. App Opstelling
+# 1. Basiese App Opstelling
 st.set_page_config(page_title="Bybelstudie Assistent", page_icon="📖")
 
-# 2. Sleutel Konfigurasie (PLAK U SLEUTEL HIER)
+# 2. Sleutel Konfigurasie (Maak seker u sleutel is tussen die aanhalings)
 genai.configure(api_key="AIzaSyBGCBgMjr3Vl-2efOtRUiCzc4FWgVhtx9s")
 
 # 3. Koppelvlak
 st.title("📖 Bybelstudie-Assistent")
 st.subheader("Vir Ds. Jan de Beer")
 
-query = st.text_input("Voer 'n teksgedeelte of teologiese vraag in:", key="input")
+query = st.text_input("Voer 'n teksgedeelte of teologiese vraag in:")
 
 if query:
-    with st.spinner("Besig met diepgaande teologiese ontleding..."):
+    with st.spinner("Besig met eksegese..."):
         try:
-            # Ons gebruik 'n eenvoudige oproep wat minder geneig is tot foute
+            # ONS GEBRUIK NOU DIE MEES STABIELE MODELNAAM
             model = genai.GenerativeModel('gemini-1.5-flash')
             
             prompt = f"""
@@ -35,5 +35,4 @@ if query:
             st.write(response.text)
             
         except Exception as e:
-            st.error(f"Daar is 'n verbindingsfout: {e}")
-            st.info("Wenk: Maak seker u API-sleutel is korrek geplak sonder spasies.")
+            st.error(f"Verbindingsfout: {e}")
