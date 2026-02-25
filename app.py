@@ -1,38 +1,39 @@
 import streamlit as st
 import google.generativeai as genai
 
-# 1. Bladsy-instellings
-st.set_page_config(page_title="Bybelstudie Jan de Beer", page_icon="📖")
+# 1. App Opstelling
+st.set_page_config(page_title="Bybelstudie Assistent", page_icon="📖")
 
-# 2. Sleutel Invoer (Maak seker u regte sleutel is hier tussen die aanhalings)
-API_KEY = "AIzaSyBGCBgMjr3Vl-2efOtRUiCzc4FWgVhtx9s"
-genai.configure(api_key=API_KEY)
+# 2. Sleutel Konfigurasie (PLAK U SLEUTEL HIER)
+genai.configure(api_key="AIzaSyBGCBgMjr3Vl-2efOtRUiCzc4FWgVhtx9s")
 
-# 3. Teologiese Instruksies
-SYSTEM_PROMPT = """
-Tree op as 'n Protestantse Teoloog. 
-Fokus: Afrikaanse 2020-vertaling, Nestle-Aland Grieks, Biblia Hebraica.
-Teoloë: Karl Barth, John MacArthur, Calvyn en Ben Engelbrecht.
-Verskaf altyd woordverklarings uit die grondtale.
-"""
-
-# HIER IS DIE BELANGRIKE VERANDERING:
-model = genai.GenerativeModel(
-    model_name="gemini-1.5-pro-latest"
-)
-
-# 4. Die Koppelvlak
+# 3. Koppelvlak
 st.title("📖 Bybelstudie-Assistent")
 st.subheader("Vir Ds. Jan de Beer")
 
-query = st.text_input("Voer 'n teksgedeelte of vraag in:")
+query = st.text_input("Voer 'n teksgedeelte of teologiese vraag in:", key="input")
 
 if query:
-    with st.spinner("Besig met eksegese..."):
+    with st.spinner("Besig met diepgaande teologiese ontleding..."):
         try:
-            # Ons stuur die instruksie saam met die vraag vir stabiliteit
-            response = model.generate_content(f"{SYSTEM_PROMPT}\n\nVraag: {query}")
+            # Ons gebruik 'n eenvoudige oproep wat minder geneig is tot foute
+            model = genai.GenerativeModel('gemini-1.5-flash')
+            
+            prompt = f"""
+            Tree op as 'n Protestantse Teoloog. 
+            Onderwerp: {query}
+            
+            Riglyne:
+            1. Gebruik die Afrikaanse 2020-vertaling.
+            2. Ontleed die grondteks (Nestle-Aland Grieks of Biblia Hebraica).
+            3. Verskaf perspektiewe van Karl Barth, John MacArthur, Johannes Calvyn en Ben Engelbrecht.
+            4. Verskaf volledige woordverklarings uit die grondtale.
+            """
+            
+            response = model.generate_content(prompt)
             st.markdown("---")
             st.write(response.text)
+            
         except Exception as e:
-            st.error(f"Fout: {e}")
+            st.error(f"Daar is 'n verbindingsfout: {e}")
+            st.info("Wenk: Maak seker u API-sleutel is korrek geplak sonder spasies.")
