@@ -1,10 +1,10 @@
 import streamlit as st
 import google.generativeai as genai
 
-# 1. Konfigurasie van die bladsy
+# 1. Bladsy-instellings
 st.set_page_config(page_title="Bybelstudie Jan de Beer", page_icon="📖")
 
-# 2. Sleutel Invoer (Vervang die teks tussen die aanhalings met u regte sleutel)
+# 2. Sleutel Invoer (Maak seker u regte sleutel is hier tussen die aanhalings)
 API_KEY = "AIzaSyBGCBgMjr3Vl-2efOtRUiCzc4FWgVhtx9s"
 genai.configure(api_key=API_KEY)
 
@@ -16,21 +16,22 @@ Teoloë: Karl Barth, John MacArthur, Calvyn en Ben Engelbrecht.
 Verskaf altyd woordverklarings uit die grondtale.
 """
 
+# HIER IS DIE BELANGRIKE VERANDERING:
 model = genai.GenerativeModel(
-   model_name="gemini-1.5-pro",
-    system_instruction=SYSTEM_PROMPT
+    model_name="gemini-1.5-pro-latest"
 )
 
-# 4. Die Koppelvlak vir die S25 Ultra
+# 4. Die Koppelvlak
 st.title("📖 Bybelstudie-Assistent")
 st.subheader("Vir Ds. Jan de Beer")
 
-query = st.text_input("Voer 'n teksgedeelte of vraag in:", placeholder="Bv. Romeine 5:1")
+query = st.text_input("Voer 'n teksgedeelte of vraag in:")
 
 if query:
     with st.spinner("Besig met eksegese..."):
         try:
-            response = model.generate_content(query)
+            # Ons stuur die instruksie saam met die vraag vir stabiliteit
+            response = model.generate_content(f"{SYSTEM_PROMPT}\n\nVraag: {query}")
             st.markdown("---")
             st.write(response.text)
         except Exception as e:
