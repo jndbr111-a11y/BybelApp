@@ -5,7 +5,7 @@ import google.generativeai as genai
 st.set_page_config(page_title="Bybelstudie Assistent", page_icon="📖")
 
 # 2. Stel die API-sleutel op (PLAK U SLEUTEL HIER)
-genai.configure(api_key="AIzaSyC5moe14QwIkRnu1cZ2gVNgMox3X77pKXs")
+genai.configure(api_key="AIzaSyDelZaSy_pmkRKcTbEm7D0t0lId_9MmvSE")
 
 # 3. Koppelvlak
 st.title("📖 Bybelstudie-Assistent")
